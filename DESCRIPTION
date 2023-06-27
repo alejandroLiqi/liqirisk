@@ -20,5 +20,11 @@ Imports:
     reactable (>= 0.4.4),
     htmltools (>= 0.5.5),
     htmlwidgets (>= 1.6.2),
-    prophet (>= 1.0)
+    prophet (>= 1.0),
+    lubridate
 License: For internal use only.
+VignetteBuilder: knitr
+Config/Needs/website:
+    dplyr,
+    tidyverse/tidytemplate
+URL: https://aba-innovationteam.github.io/innteamUtils/

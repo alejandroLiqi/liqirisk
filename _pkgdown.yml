@@ -1,0 +1,7 @@
+url: https://alejandroLiqi.github.io/rliqiUW/
+template:
+  bootstrap: 4
+  theme: nord
+  bslib:
+    primary: '#ffbe00'
+    code_font: {google: "JetBrains Mono"}
