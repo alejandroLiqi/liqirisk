@@ -1,7 +1,7 @@
 Package: rliqiUW
 Type: Package
 Title: Liqi internal package for Underwriting process
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Alejandro", "Abraham", , "alejandro@liqi.it", role = c("aut", "cre"))
 Description: The Underwriting process contains
