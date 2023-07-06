@@ -5,7 +5,7 @@
 #' @param lista a list() of file names in a folder using list.files()
 #'
 #' @author Alejandro Abraham <alejandro@liqi.it>
-#' @import data.table
+#' @importFrom data.table data.table
 #' @return data.table with the number of rows and names of each file in the list
 #'
 #'
@@ -13,7 +13,7 @@
 
 check_files = function(lista) {
 
-    dts = data.table(
+    dts = data.table::data.table(
         file_name = NA_character_,
         status = NA_character_,
         number_rows = NA_character_)
@@ -21,9 +21,9 @@ check_files = function(lista) {
     for (file in 1:length(lista)) {
 
         name = names(lista[file])
-        n_rows = nrow(as.data.table(lista[file]))
+        n_rows = nrow(data.table::as.data.table(lista[file]))
         status_check = n_rows >= 1
-        new_file = data.table(
+        new_file = data.table::data.table(
             file_name = name,
             status = status_check,
             number_rows = n_rows)

@@ -1,4 +1,4 @@
-#' Liqi reactable Theme
+#' Liqi Reactable General Theme
 #'
 #' Contains the parameters and colour for a standarized table theme.
 #'
@@ -6,7 +6,7 @@
 #' @author Alejandro Abraham <alejandro@liqi.it>
 #'
 #' @examples
-#'library(innteamUtils)
+#'library(rliqiUW)
 #'library(reactable)
 #'reactable(iris, theme = react_format,
 #'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
@@ -37,3 +37,59 @@ react_format = reactable::reactableTheme(
   selectStyle = list(backgroundColor = "#ffbe00", color = 'white')
 
 )
+
+
+
+
+
+
+#' Liqi Input reactable
+#'
+#' Contains the parameters and colour for a standarized table theme.
+#'
+#'
+#' @author Alejandro Abraham <alejandro@liqi.it>
+#'
+#' @examples
+#'library(rliqiUW)
+#'library(reactable)
+#'reactable(iris, theme = liqi_input_reactable,
+#'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
+#'
+#' @returns an object with lists to pass into the reactable function or options.
+#' @export
+#'
+#' @import reactable
+#' @importFrom reactable reactableTheme
+#'
+liqi_input_reactable =
+    reactable::reactableTheme(
+        color = '#000729',
+        tableStyle = list(fontSize = 11),
+        headerStyle = list(height = 40, align = 'center', fontSize = 12, background = '#ffbe00', borderWidth = 0.5, borderRadius = 1, color = '#fff', cursor = "pointer")
+    )
+
+
+#' Liqi Output reactable
+#'
+#' Contains the parameters and colour for a standarized table theme.
+#'
+#'
+#' @author Alejandro Abraham <alejandro@liqi.it>
+#'
+#' @examples
+#'library(rliqiUW)
+#'library(reactable)
+#'reactable(iris, theme = liqi_output_reactable,
+#'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
+#'
+#' @returns an object with lists to pass into the reactable function or options.
+#' @export
+#'
+#' @importFrom reactable reactableTheme
+liqi_output_reactable =
+    reactable::reactableTheme(
+        color = '#000729',
+        tableStyle = list(fontSize = 11),
+        headerStyle = list(height = 40, align = 'center', fontSize = 12, background = '#000729', borderWidth = 0.5, borderRadius = 1, color = '#fff', cursor = "pointer")
+    )

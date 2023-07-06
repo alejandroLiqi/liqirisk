@@ -17,7 +17,7 @@ lister_bs = function(num_bs, lista) {
     if(length(lista$bilanci) == 1) {
 
         bilancio =
-            data.table(
+            data.table::data.table(
                 num = num_bs,
                 tipo_bilancio = lista$bilanci$tipo_bilancio,
                 data_chiusura = lista$bilanci$data_chiusura
@@ -26,7 +26,7 @@ lister_bs = function(num_bs, lista) {
     } else {
 
         bilancio =
-            data.table(
+            data.table::data.table(
                 num = num_bs,
                 tipo_bilancio = lista$bilanci[num_bs][[1]]$tipo_bilancio,
                 data_chiusura = lista$bilanci[num_bs][[1]]$data_chiusura
