@@ -6,7 +6,7 @@
 #' @author Alejandro Abraham <alejandro@liqi.it>
 #'
 #' @examples
-#'library(rliqiUW)
+#'library(liqirisk)
 #'library(reactable)
 #'reactable(iris, theme = react_format,
 #'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
@@ -51,7 +51,7 @@ react_format = reactable::reactableTheme(
 #' @author Alejandro Abraham <alejandro@liqi.it>
 #'
 #' @examples
-#'library(rliqiUW)
+#'library(liqirisk)
 #'library(reactable)
 #'reactable(iris, theme = liqi_input_reactable,
 #'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
@@ -78,7 +78,7 @@ liqi_input_reactable =
 #' @author Alejandro Abraham <alejandro@liqi.it>
 #'
 #' @examples
-#'library(rliqiUW)
+#'library(liqirisk)
 #'library(reactable)
 #'reactable(iris, theme = liqi_output_reactable,
 #'          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)

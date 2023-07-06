@@ -17,7 +17,7 @@ an object with lists to pass into the reactable function or options.
 Contains the parameters and colour for a standarized table theme.
 }
 \examples{
-library(rliqiUW)
+library(liqirisk)
 library(reactable)
 reactable(iris, theme = liqi_input_reactable,
          highlight = TRUE, striped = TRUE, filterable = TRUE, resizable = TRUE, wrap = FALSE)
