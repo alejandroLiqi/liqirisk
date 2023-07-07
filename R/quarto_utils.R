@@ -23,6 +23,7 @@ check_files = function(lista) {
         name = names(lista[file])
         n_rows = nrow(data.table::as.data.table(lista[file]))
         status_check = n_rows >= 1
+
         new_file = data.table::data.table(
             file_name = name,
             status = status_check,
