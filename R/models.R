@@ -10,7 +10,6 @@
 #' @import data.table
 #' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
-#' @importFrom data.table setdiff
 #' @importFrom data.table setorder
 #' @importFrom data.table setkey
 #' @importFrom data.table setcolorder
@@ -30,7 +29,7 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     }
 
     required_cols = c('date', 'amount_net', 'tipo_docum', 'entity_name')
-    missing_cols =  data.table::setdiff(required_cols, colnames(DT))
+    missing_cols =  setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if (!is.Date(DT$date)) {
@@ -91,7 +90,6 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
 #' @import plotly
 #' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
-#' @importFrom data.table setdiff
 #' @return data.table with DT ready for model fitting with prophet
 #'
 #'
@@ -106,7 +104,7 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
     }
 
     required_cols = c('ds')
-    missing_cols =  data.table::setdiff(required_cols, colnames(DT))
+    missing_cols =  setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if (!is.Date(DT$ds)) {
@@ -165,7 +163,6 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
 #' @importFrom data.table data.table
 #' @importFrom data.table is.data.table
 #' @importFrom data.table setDT
-#' @importFrom data.table setdiff
 #' @importFrom data.table setorder
 #' @importFrom data.table setkey
 #' @importFrom data.table setcolorder
@@ -204,7 +201,7 @@ forecast_plot = function(DT, type_plot = '1', title_plot = 'Weekly Forecast') {
     }
 
     required_cols = c('ds', 'yhat', 'yhat_lower', 'yhat_upper', 'type')
-    missing_cols = data.table::setdiff(required_cols, colnames(DT))
+    missing_cols = setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if(type_plot == '1') {
