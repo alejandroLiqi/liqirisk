@@ -8,14 +8,6 @@
 #'
 #' @author Alejandro Abraham <alejandro@liqi.it>
 #' @import data.table
-#' @importFrom data.table data.table
-#' @importFrom data.table is.data.table
-#' @importFrom data.table setorder
-#' @importFrom data.table setkey
-#' @importFrom data.table setcolorder
-#' @importFrom data.table setnames
-#' @importFrom data.table :=
-#' @importFrom data.table fifelse
 #' @return data.table with DT ready for model fitting with prophet
 #'
 #'
@@ -41,11 +33,11 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     ### Week start
     kc_DT = c('date', 'amount_net', 'tipo_docum', 'entity_name')
     DT = DT[, ..kc_DT]
-    DT = DT[, amount_net :=  data.table::fifelse(tipo_docum == 'Nota di credito', -amount_net, amount_net)]
-    DT = DT[, invoices_cat :=  data.table::fifelse(grepl("Fattur", tipo_docum, ignore.case = TRUE), 'sales', 'other')]
+    DT = DT[, amount_net :=  fifelse(tipo_docum == 'Nota di credito', -amount_net, amount_net)]
+    DT = DT[, invoices_cat :=  fifelse(grepl("Fattur", tipo_docum, ignore.case = TRUE), 'sales', 'other')]
     DT[, ds := as.Date(format(date - as.numeric(format(date, "%w")) + 1, "%Y-%m-%d"))]
     DT_agg = DT[, .(y = sum(amount_net)), by = list(ds, invoices_cat)]
-    data.table::setorder(DT_agg, 'ds')
+    setorder(DT_agg, 'ds')
     DT_agg = all_weeks[DT_agg[invoices_cat == 'sales'], on = "ds"]
 
     ### FOR NOTA DI CREDITO WE NEED TO CREATE A FUNCTION THAT LOOKS FOR THE SAME AMOUNT OR 3 MONTHS BEFORE AND FINDS THE SIMILAR AMOUNT OR STH
@@ -58,11 +50,11 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     DT_agg[is.na(y), y := 0]
 
     ## Reordering
-    data.table::setcolorder(DT_agg, neworder = c('ds', 'y'))
-    data.table::setkey(DT_agg, 'ds')
-    data.table::setorder(DT_agg, 'ds')
+    setcolorder(DT_agg, neworder = c('ds', 'y'))
+    setkey(DT_agg, 'ds')
+    setorder(DT_agg, 'ds')
 
-    data.table::setnames(DT_agg, old = names(DT_agg), new = c(c_ds, c_y))
+    setnames(DT_agg, old = names(DT_agg), new = c(c_ds, c_y))
 
 
     return(DT_agg)
