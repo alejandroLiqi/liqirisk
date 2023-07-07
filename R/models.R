@@ -25,19 +25,19 @@
 model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
 
     # CHECKS
-    if (!is.data.table(DT)) {
+    if (! data.table::is.data.table(DT)) {
         stop("Error: data must be a data.table.")
     }
 
     required_cols = c('date', 'amount_net', 'tipo_docum', 'entity_name')
-    missing_cols = setdiff(required_cols, colnames(DT))
+    missing_cols =  data.table::setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if (!is.Date(DT$date)) {
         stop("Error: date column must be a data.table.")
     }
 
-    all_weeks = data.table(ds = seq(min(DT$date), max(DT$date), by = "week"))
+    all_weeks =  data.table::data.table(ds = seq(min(DT$date), max(DT$date), by = "week"))
 
     # FUNCTION
 
@@ -46,11 +46,11 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     ### Week start
     kc_DT = c('date', 'amount_net', 'tipo_docum', 'entity_name')
     DT = DT[, ..kc_DT]
-    DT = DT[, amount_net := fifelse(tipo_docum == 'Nota di credito', -amount_net, amount_net)]
-    DT = DT[, invoices_cat := fifelse(grepl("Fattur", tipo_docum, ignore.case = TRUE), 'sales', 'other')]
+    DT = DT[, amount_net :=  data.table::fifelse(tipo_docum == 'Nota di credito', -amount_net, amount_net)]
+    DT = DT[, invoices_cat :=  data.table::fifelse(grepl("Fattur", tipo_docum, ignore.case = TRUE), 'sales', 'other')]
     DT[, ds := as.Date(format(date - as.numeric(format(date, "%w")) + 1, "%Y-%m-%d"))]
     DT_agg = DT[, .(y = sum(amount_net)), by = list(ds, invoices_cat)]
-    setorder(DT_agg, 'ds')
+    data.table::setorder(DT_agg, 'ds')
     DT_agg = all_weeks[DT_agg[invoices_cat == 'sales'], on = "ds"]
 
     ### FOR NOTA DI CREDITO WE NEED TO CREATE A FUNCTION THAT LOOKS FOR THE SAME AMOUNT OR 3 MONTHS BEFORE AND FINDS THE SIMILAR AMOUNT OR STH
@@ -63,11 +63,11 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     DT_agg[is.na(y), y := 0]
 
     ## Reordering
-    setcolorder(DT_agg, neworder = c('ds', 'y'))
-    setkey(DT_agg, 'ds')
-    setorder(DT_agg, 'ds')
+    data.table::setcolorder(DT_agg, neworder = c('ds', 'y'))
+    data.table::setkey(DT_agg, 'ds')
+    data.table::setorder(DT_agg, 'ds')
 
-    setnames(DT_agg, old = names(DT_agg), new = c(c_ds, c_y))
+    data.table::setnames(DT_agg, old = names(DT_agg), new = c(c_ds, c_y))
 
 
     return(DT_agg)
@@ -101,12 +101,12 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
 
     # CHECKS
 
-    if (!is.data.table(DT)) {
+    if (! data.table::is.data.table(DT)) {
         stop("Error: data must be a data.table.")
     }
 
     required_cols = c('ds')
-    missing_cols = setdiff(required_cols, colnames(DT))
+    missing_cols =  data.table::setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if (!is.Date(DT$ds)) {
@@ -129,7 +129,7 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
     lower_limit = median_value - 3.5 * iqr_value
     upper_limit = median_value + 3.5 * iqr_value
 
-    DT[,  y := fifelse(y < lower_limit | y > upper_limit, median_value, y)]
+    DT[,  y :=  data.table::fifelse(y < lower_limit | y > upper_limit, median_value, y)]
 
     model_inv = prophet::prophet(DT, growth = "linear", seasonality.mode = 'multiplicative', daily.seasonality = FALSE, weekly.seasonality = TRUE)
 
@@ -137,7 +137,7 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
 
     ### Make predictions
     inv_forecast = predict(model_inv, future_dates)
-    setDT(inv_forecast)
+    data.table::setDT(inv_forecast)
     inv_forecast[, type := fifelse(as.Date(ds) <= max(DT$ds), 'Sample', 'Forecast')]
 
     if(complete_dt == TRUE) {
@@ -174,6 +174,8 @@ model_forecast = function(DT, col_forecast, n_weeks = 26, complete_dt = FALSE) {
 #' @importFrom data.table fifelse
 #' @importFrom prophet prophet
 #' @importFrom prophet make_future_dataframe
+#' @importFrom("plotly", "layout", "add_trace", "add_ribbons", "plot_ly")
+#' @importFrom("stats", "IQR", "median", "predict")
 #' @return data.table with DT ready for model fitting with prophet
 #'
 #'
@@ -183,7 +185,7 @@ forecast_plot = function(DT, type_plot = '1', title_plot = 'Weekly Forecast') {
 
     # CHECKS
 
-    if (!is.data.table(DT)) {
+    if (!data.table::is.data.table(DT)) {
         stop("Error: data must be a data.table.")
     }
 
@@ -202,7 +204,7 @@ forecast_plot = function(DT, type_plot = '1', title_plot = 'Weekly Forecast') {
     }
 
     required_cols = c('ds', 'yhat', 'yhat_lower', 'yhat_upper', 'type')
-    missing_cols = setdiff(required_cols, colnames(DT))
+    missing_cols = data.table::setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     if(type_plot == '1') {
@@ -217,22 +219,22 @@ forecast_plot = function(DT, type_plot = '1', title_plot = 'Weekly Forecast') {
     # FUNCTION
 
     DT |>
-        plot_ly(type = 'scatter', mode = 'lines') |>
-        add_trace(x = ~DT[type == 'Sample']$ds,
+        plotly::plot_ly(type = 'scatter', mode = 'lines') |>
+        plotly::add_trace(x = ~DT[type == 'Sample']$ds,
                   y = ~DT[type == 'Sample']$yhat,
                   name = 'Sample',
                   color = I(color_id)) |>
-        add_ribbons(x = ~DT[type == 'Forecast']$ds,
+        plotly::add_ribbons(x = ~DT[type == 'Forecast']$ds,
                     ymin = ~DT[type == 'Forecast']$yhat_lower,
                     ymax = ~DT[type == 'Forecast']$yhat_upper,
                     color = I("gray95"),
                     name = "95% confidence") |>
-        add_trace(x = ~DT[type == 'Forecast']$ds,
+        plotly::add_trace(x = ~DT[type == 'Forecast']$ds,
                   y = ~DT[type == 'Forecast']$yhat,
                   name = 'Forecast',
                   color = I('#94A69F'),
                   line = list(dash = "dash")) |>
-        layout(title = title_plot,
+        plotly::layout(title = title_plot,
                xaxis = list(title = ''),
                yaxis = list(title = 'yhat'))
 
