@@ -32,10 +32,6 @@ model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
     missing_cols =  setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
-    if (!is.Date(DT$date)) {
-        stop("Error: date column must be a data.table.")
-    }
-
     all_weeks =  data.table::data.table(ds = seq(min(DT$date), max(DT$date), by = "week"))
 
     # FUNCTION
