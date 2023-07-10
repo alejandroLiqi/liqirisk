@@ -1,7 +1,7 @@
 Package: liqirisk
 Type: Package
 Title: Liqi internal package for Underwriting process
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     person("Alejandro", "Abraham", , "alejandro@liqi.it", role = c("aut", "cre"))
 Description: The Underwriting process contains
@@ -21,7 +21,7 @@ Imports:
     htmltools (>= 0.5.5),
     htmlwidgets (>= 1.6.2),
     prophet (>= 1.0),
-    knitr (>= 1.43),
+    knitr (<= 1.42),
     lubridate (>= 1.9.2)
 License: file LICENSE
 VignetteBuilder: knitr

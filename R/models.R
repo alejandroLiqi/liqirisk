@@ -15,24 +15,14 @@
 
 model_prep = function(DT, c_ds = 'ds', c_y = 'y') {
 
-    # CHECKS
-    if (! data.table::is.data.table(DT)) {
-        stop("Error: data must be a data.table.")
-    }
-
     required_cols = c('date', 'amount_net', 'tipo_docum', 'entity_name')
     missing_cols =  setdiff(required_cols, colnames(DT))
     if (length(missing_cols) > 0) { stop("The DT data.table is missing the following required column(s): ", paste(missing_cols, collapse = ", "))}
 
     all_weeks =  data.table::data.table(ds = seq(min(DT$date), max(DT$date), by = "week"))
 
-    # FUNCTION
+    setDT(DT)
 
-    ## Clean DT
-
-    ### Week start
-    kc_DT = c('date', 'amount_net', 'tipo_docum', 'entity_name')
-    DT = DT[, ..kc_DT]
     DT = DT[, amount_net :=  fifelse(tipo_docum == 'Nota di credito', -amount_net, amount_net)]
     DT = DT[, invoices_cat :=  fifelse(grepl("Fattur", tipo_docum, ignore.case = TRUE), 'sales', 'other')]
     DT[, ds := as.Date(format(date - as.numeric(format(date, "%w")) + 1, "%Y-%m-%d"))]
