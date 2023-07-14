@@ -65,8 +65,10 @@ react_format = reactable::reactableTheme(
 liqi_input_reactable =
     reactable::reactableTheme(
         color = '#000729',
-        tableStyle = list(fontSize = 11),
-        headerStyle = list(height = 40, align = 'center', fontSize = 12, background = '#ffbe00', borderWidth = 0.5, borderRadius = 1, color = '#fff', cursor = "pointer")
+        tableBodyStyle = list(boderWidth = 0.15, borderColor = '#f8f9fa'),
+        tableStyle = list(fontSize = 11, borderRadius = 8, boderWidth = 0.15, borderColor = '#f8f9fa'),
+        headerStyle = list(height = 30, align = 'center', borderRadius = 0, fontSize = 12, background = '#FFBE00', borderWidth = 0.15, color = '#fff', cursor = "pointer", lineHeight = 3),
+        cellStyle = list(borderColor = "#f8f9fa")
     )
 
 
@@ -90,6 +92,8 @@ liqi_input_reactable =
 liqi_output_reactable =
     reactable::reactableTheme(
         color = '#000729',
-        tableStyle = list(fontSize = 11),
-        headerStyle = list(height = 40, align = 'center', fontSize = 12, background = '#000729', borderWidth = 0.5, borderRadius = 1, color = '#fff', cursor = "pointer")
+        tableBodyStyle = list(boderWidth = 0.15, borderColor = '#f8f9fa'),
+        tableStyle = list(fontSize = 11, borderRadius = 8, boderWidth = 0.15, borderColor = '#f8f9fa'),
+        headerStyle = list(height = 30, align = 'center', borderRadius = 0, fontSize = 12, background = '#000729', borderWidth = 0.15, color = '#fff', cursor = "pointer", lineHeight = 3),
+        cellStyle = list(borderColor = "#f8f9fa")
     )
