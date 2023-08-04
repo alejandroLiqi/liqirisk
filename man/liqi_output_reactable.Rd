@@ -5,7 +5,7 @@
 \alias{liqi_output_reactable}
 \title{Liqi Output reactable}
 \format{
-An object of class \code{reactableTheme} of length 3.
+An object of class \code{reactableTheme} of length 5.
 }
 \usage{
 liqi_output_reactable
