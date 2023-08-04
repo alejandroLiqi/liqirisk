@@ -7,7 +7,10 @@
 s3_retrieve_directory(
   company,
   date,
-  risk_bucket = "s3://risk-clientele/clients"
+  dest_path,
+  data_type,
+  risk_bucket = "s3://risk-clientele/clients",
+  zipped = FALSE
 )
 }
 \arguments{
@@ -15,7 +18,13 @@ s3_retrieve_directory(
 
 \item{date}{the date desired to download (or 'latest')}
 
+\item{dest_path}{the local path}
+
+\item{data_type}{internal or external}
+
 \item{risk_bucket}{the aws bucket}
+
+\item{zipped}{create zip folder}
 }
 \value{
 directory imported from S3

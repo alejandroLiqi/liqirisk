@@ -7,6 +7,7 @@
 s3_retrieve_object(
   object_path,
   company_path,
+  dest_path = "clients",
   risk_bucket = "s3://risk-clientele/clients"
 )
 }
@@ -16,6 +17,8 @@ s3_retrieve_object(
 \item{company_path}{the bucket's S3 internal path of the company}
 
 \item{risk_bucket}{the aws bucket}
+
+\item{complete}{recreate the bucket path locally}
 }
 \value{
 file imported from S3
