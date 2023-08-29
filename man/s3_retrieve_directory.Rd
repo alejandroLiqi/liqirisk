@@ -7,10 +7,10 @@
 s3_retrieve_directory(
   company,
   date,
-  dest_path,
-  data_type,
+  dest_path = NULL,
+  data_type = "full",
   risk_bucket = "s3://risk-clientele/clients",
-  zipped = FALSE
+  zipped = TRUE
 )
 }
 \arguments{
