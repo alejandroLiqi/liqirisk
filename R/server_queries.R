@@ -15,7 +15,7 @@ load_query = function(company, table) {
     with companies as (
         select *
         from ca_mycompany
-        where lower(name) like '%", company, "%'
+        where name like '%", company, "%'
     ),
     ias as (
         -- invoice accounts
@@ -197,6 +197,7 @@ query_company_detail = function(company, conn, BASE_PATH = "", verbose = TRUE) {
     query = paste0("
     SELECT id, name, vat_number, country, region, cap, city, address
     FROM ca_mycompany;
+
     ")
 
     DTS = dbGetQuery(conn, query)

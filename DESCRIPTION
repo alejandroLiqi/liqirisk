@@ -1,7 +1,7 @@
 Package: liqirisk
 Type: Package
 Title: Liqi internal package for economics, risk and underwriting.
-Version: 0.8.4
+Version: 0.8.5
 Authors@R: 
     person("Alejandro", "Abraham", , "alejandro@liqi.it", role = c("aut", "cre"))
 Description: The Underwriting process contains
