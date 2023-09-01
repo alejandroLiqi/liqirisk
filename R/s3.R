@@ -242,6 +242,46 @@ s3_retrieve_directory = function(company, date, dest_path = NULL, data_type = 'f
 
 
 
+#' AWS S3 Client lastest date
+#'
+#' Get the client's  directory from the S3 Risk bucket
+#'
+#' @param company the company's LID
+#' @param risk_bucket the aws bucket
+#'
+#' @author Alejandro Abraham <alejandro@liqi.it>
+#' @import data.table
+#' @import aws.s3
+#' @import zip
+#'
+#' @returns directory imported from S3
+#' @export
+#'
+#' @importFrom aws.s3 save_object
+#'
+
+s3_client_latest = function(company, risk_bucket = "s3://risk-clientele/clients") {
+
+    ## S3 Setup -----------------------------
+    lid_company = company
+
+    ### Retrieve Bucket Data
+
+    risk_bucket = "s3://risk-clientele/"
+    clientele_s3 = aws.s3::get_bucket_df(risk_bucket) |> data.table::as.data.table()
+
+
+    ### Filter Company & Date
+
+    extracted_part = clientele_s3$Key[grepl(lid_company, clientele_s3$Key)]
+    snapshot_list = unique(regmatches(extracted_part, regexpr("[0-9]{4}-[0-9]{2}-[0-9]{2}", extracted_part)))
+    company_date = max(snapshot_list)
+
+    cat('Lastest company_date available is', company_date)
+
+    return(company_date)
+
+}
 
 
 

@@ -6,6 +6,8 @@
 #' @param apikey A string representing the API key.
 #'
 #' @importFrom httr GET content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #'
 #' @return A string containing the HTTP response.
 #' @export
@@ -45,6 +47,8 @@ get_entity_detail = function(piva, apikey) {
 #' @param apikey A string representing the API key.
 #'
 #' @importFrom httr GET content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #'
 #' @return A string containing the HTTP response.
 #' @export
@@ -66,13 +70,13 @@ get_profile = function(cerved_id, apikey) {
         "id_soggetto" = cerved_id
     )
 
-    resp = GET(
+    resp = httr::GET(
         url = paste0("https://api.cerved.com/cervedApi", path),
-        add_headers(header),
+        httr::add_headers(header),
         query = params
     )
 
-    return(content(resp, "text", encoding = "UTF-8"))
+    return(httr::content(resp, "text", encoding = "UTF-8"))
 }
 
 #' Get score CGS
@@ -84,6 +88,8 @@ get_profile = function(cerved_id, apikey) {
 #' @param codice_score A string representing the score code. Default is "CGS".
 #'
 #' @importFrom httr GET content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #'
 #' @return A string containing the HTTP response.
 #' @export
@@ -105,9 +111,9 @@ get_score_CGS = function(cerved_id, apikey, codice_score="CGS") {
         "id_soggetto" = cerved_id
     )
 
-    resp = GET(
+    resp = httr::GET(
         url = paste0("https://api.cerved.com/cervedApi", path),
-        add_headers(header),
+        httr::add_headers(header),
         query = params
     )
 
@@ -123,6 +129,8 @@ get_score_CGS = function(cerved_id, apikey, codice_score="CGS") {
 #' @param apikey A string representing the API key.
 #'
 #' @importFrom httr GET content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #'
 #' @return A string containing the HTTP response.
 #' @export
@@ -144,13 +152,13 @@ get_balancesheet_list = function(cerved_id, apikey) {
         "id_soggetto" = cerved_id
     )
 
-    resp = GET(
+    resp = httr::GET(
         url = paste0("https://api.cerved.com/cervedApi", path),
-        add_headers(header),
+        httr::add_headers(header),
         query = params
     )
 
-    return(content(resp, "text", encoding = "UTF-8"))
+    return(httr::content(resp, "text", encoding = "UTF-8"))
 }
 
 #' Get balance sheet
@@ -163,6 +171,8 @@ get_balancesheet_list = function(cerved_id, apikey) {
 #' @param tipo A string representing the balance type. Default is "E".
 #'
 #' @importFrom httr GET content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #'
 #' @return A string containing the HTTP response.
 #' @export
@@ -203,13 +213,13 @@ get_balancesheet = function(cerved_id, date, apikey, tipo="E") {
         "tipo_bilancio" = tipo
     )
 
-    resp = GET(
+    resp = httr::GET(
         url = paste0("https://api.cerved.com/cervedApi", path),
-        add_headers(header),
+        httr::add_headers(header),
         query = params
     )
 
-    return(content(resp, "text", encoding = "UTF-8"))
+    return(httr::content(resp, "text", encoding = "UTF-8"))
 }
 
 
@@ -221,12 +231,15 @@ get_balancesheet = function(cerved_id, date, apikey, tipo="E") {
 #' @param apikey A string representing the API key.
 #'
 #' @importFrom httr POST content
+#' @importFrom httr add_headers content
+#' @importFrom httr content content
 #' @importFrom jsonlite toJSON fromJSON
 #'
 #' @return A string containing the HTTP response.
 #' @export
 
 get_outlook_from_llm = function(ateco_desc, apikey) {
+
     if(!is.character(ateco_desc)) {
         stop('Ateco description is not a string')
     }
@@ -259,9 +272,9 @@ get_outlook_from_llm = function(ateco_desc, apikey) {
         "temperature" = 0
     )
 
-    resp = POST(url, add_headers(headers), body = toJSON(payload, auto_unbox = TRUE), encode = "json")
+    resp = httr::POST(url, httr::add_headers(headers), body = jsonlite::toJSON(payload, auto_unbox = TRUE), encode = "json")
 
-    response = fromJSON(content(resp, "text", encoding = "UTF-8"))
+    response = jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
 
     return(response$choices[[1]]$message$content)
 }
